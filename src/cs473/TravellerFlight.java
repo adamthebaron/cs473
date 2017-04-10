@@ -13,15 +13,14 @@ public class TravellerFlight {
 	private String to;
     private String airportFrom;
     private String airportTo;
-	private Date start;
-	private Date end;
+	private Date date;
 	private String day;
 	private String plane;
 	private String airline;
 
     public TravellerFlight(int reservationId, int flightNumber, int seat, int distance,
 				           String from, String to, String airportFrom, String airportTo,
-                           Date start, Date end, String day, String plane, String airline) {
+                           Date date, String day, String plane, String airline) {
         this.reservationId = reservationId;
 		this.flightNumber  = flightNumber;
 		this.seat 		   = seat;
@@ -30,8 +29,7 @@ public class TravellerFlight {
 		this.to			   = to;
         this.airportFrom   = airportFrom;
         this.airportTo	   = airportTo;
-		this.start		   = start;
-		this.end		   = end;
+		this.date		   = date;
 		this.day		   = day;
 		this.plane		   = plane;
 		this.airline	   = airline;

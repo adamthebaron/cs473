@@ -4,9 +4,9 @@ import org.mongodb.morphia.annotations.Id;
 
 public class Airport {
     @Id
-    private String airportCode;
-    private String city;
-	private String state;
+    public String airportCode;
+    public String city;
+	public String state;
 
     public Airport(String airportCode, String city, String state) {
         this.airportCode = airportCode;

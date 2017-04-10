@@ -13,13 +13,12 @@ public class CityFlight {
 	private String airplane;
 	private int seats;
 	private int seatsTaken;
-	private Date start;
-	private Date end;
+	private Date date;
 	private String day;
 
     public CityFlight(String number, String airport, String to, String airportTo,
                       String airline, String airplane, int seats, int seatsTaken,
-                      Date start, Date end, String day) {
+                      Date date, String day) {
         this.number = number;
 		this.airport  = airport;
 		this.to 		   = to;
@@ -28,8 +27,7 @@ public class CityFlight {
         this.airplane = airplane;
         this.seats = seats;
         this.seatsTaken = seatsTaken;
-        this.start = start;
-        this.end = end;
+        this.date = date;
         this.day = day;
     }
 }
