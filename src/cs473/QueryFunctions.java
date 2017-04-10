@@ -54,7 +54,17 @@ public class QueryFunctions {
      * instead of a date range.
      */
     public List<Object> flightOverbooked(boolean checkOriginationCity, String airportCode, Date date) {
-        
+        if (checkOriginationCity)
+            return datastore.createQuery(FlightQuery.class)
+                            .field("fromAirport").equal(airportCode)
+                            .field("seatsTaken").greaterThanOrEq(field("seats"))
+                            .asList();
+        else
+            return datastore.createQuery(FlightQuery.class)
+                            .field("date").equal(date)
+                            .field("toAirport").equal(airportCode)
+                            .field("seatsTaken").greaterThanOrEq(field("seats"))
+                            .asList();
     }
 
     /**
@@ -65,7 +75,7 @@ public class QueryFunctions {
      * Demand is to be calculated as the percentage of possible seats originating at the airport that are sold.
      */
     public String highestDemand(Date date) {
-        return null;
+        
     }
 
     /**
@@ -83,7 +93,10 @@ public class QueryFunctions {
      * different airport than the one with the lowest demand.
      */
     public String mostAvailableSeats(Date date) {
-        return null;
+        return datastore.createQuery("CityQuery.class")
+                        .field("date").equals(date)
+                        .sort("seatsTaken", 1)
+                        .limit(1);
     }
 
     /**
