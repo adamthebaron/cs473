@@ -17,20 +17,19 @@ public class CityFlight {
 	private Date end;
 	private String day;
 
-    public CityFlight(int reservationId, int flightNumber, String seat, int distance,
-				  String from, String to, String airportTo, Date start, Date end, String day,
-				  String plane, String airline) {
-        this.reservationId = reservationId;
-		this.flightNumber  = flightNumber;
-		this.seat 		   = seat;
-		this.distance	   = distance;
-		this.from		   = from;
-		this.to			   = to;
-		this.airportTo	   = airportTo;
-		this.start		   = start;
-		this.end		   = end;
-		this.day		   = day;
-		this.plane		   = plane;
-		this.airline	   = airline;
+    public CityFlight(String number, String airport, String to, String airportTo,
+                      String airline, String airplane, int seats, int seatsTaken,
+                      Date start, Date end, String day) {
+        this.number = number;
+		this.airport  = airport;
+		this.to 		   = to;
+        this.airportTo = airportTo;
+        this.airline = airline;
+        this.airplane = airplane;
+        this.seats = seats;
+        this.seatsTaken = seatsTaken;
+        this.start = start;
+        this.end = end;
+        this.day = day;
     }
 }

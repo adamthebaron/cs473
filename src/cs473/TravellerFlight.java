@@ -19,7 +19,7 @@ public class TravellerFlight {
 	private String plane;
 	private String airline;
 
-    public TravellerFlight(int reservationId, int flightNumber, String seat, int distance,
+    public TravellerFlight(int reservationId, int flightNumber, int seat, int distance,
 				           String from, String to, String airportFrom, String airportTo,
                            Date start, Date end, String day, String plane, String airline) {
         this.reservationId = reservationId;

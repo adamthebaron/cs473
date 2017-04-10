@@ -1,7 +1,7 @@
 package cs473;
 
 import org.mongodb.morphia.annotations.Id;
-import java.util.date;
+import java.util.Date;
 
 public class FlightQuery {
     @Id
@@ -30,25 +30,5 @@ public class FlightQuery {
 		this.end = end;
 		this.distance = distance;
 		this.day = day;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public TravellerFlight getFlight(int id) {
-        return flights.get(id);
     }
 }
