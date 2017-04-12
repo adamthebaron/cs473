@@ -29,6 +29,8 @@ public class ProjectFunctions {
     public final Map<String, Integer> planes = new HashMap<>();
     public final Map<Integer, Reservation> reservations = new HashMap<>();
     public final Map<Integer, String> travelers = new HashMap<>();
+    public ArrayList<FlightQuery> flightQueries = new ArrayList<>();
+    public ArrayList<TravellerQuery> travellerQueries = new ArrayList<>();
     public ArrayList<TravellerFlight> travellerFlights = new ArrayList<>();
 
     public int getSeatsTaken(String flight) {
@@ -106,6 +108,7 @@ public class ProjectFunctions {
                                                   planeType, planes.get(planeType), getSeatsTaken(flightCode),
                                                   getFlightDate(flightCode), 0, getDay(dayOfWeek));
         datastore.save(flightQuery);
+        flightQueries.add(flightQuery);
     }
 
     public void addTraveler(int travelerId, String name) {
@@ -117,6 +120,7 @@ public class ProjectFunctions {
         TravellerQuery travellerQuery = new TravellerQuery(travelerId, name, localFlights);
 	    travelers.put(travelerId, name);
         datastore.save(travellerQuery);
+        travellerQueries.add(travellerQuery);
     }
 
     public void makeReservation(int reservationId, int travelerId, String flightCode, int dayOfWeek, Date date) {
