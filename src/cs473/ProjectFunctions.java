@@ -7,6 +7,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 // This is the class that you will need to modify in order to make our application work.
+
+//order data must be imported:
+// 1: reservations
+// 2: travelers
 public class ProjectFunctions {
     private final Datastore datastore;
 
@@ -20,6 +24,7 @@ public class ProjectFunctions {
     public final Map<String, Integer> planes = new HashMap<>();
     public final Map<Integer, Reservation> reservations = new HashMap<>();
     public final Map<Integer, String> travelers = new HashMap<>();
+    public TravellerFlight travellerFlights[];
 
     public int getSeatsTaken(String flight) {
         int seatsTaken = 0;
@@ -50,7 +55,7 @@ public class ProjectFunctions {
         }
     }
 
-    public String getAirportState(String airport) {
+    public String getAirportCity(String airport) {
         Airport curAirport = airports.get(airport);
         return curAirport.city;
     }
@@ -59,6 +64,13 @@ public class ProjectFunctions {
         for (Reservation reservation: reservations.values())
             if(flightCode.equals(reservation.flight))
                 return reservation.date;
+        return null;
+    }
+
+    public Flight getFlight(String flightCode) {
+        for (Flight flight: flights.values())
+            if (flightCode.equals(flights.number))
+                return flight;
         return null;
     }
 
@@ -82,10 +94,10 @@ public class ProjectFunctions {
 
     public void addFlight(String airlineCode, String flightCode, int dayOfWeek, String origAirportCode, String destAirportCode, String planeType) {
         System.out.println(String.format("Adding flight %s\tfrom %s to %s on %d\tplane %s", flightCode, origAirportCode, destAirportCode, dayOfWeek, planeType));
-        Flight flight = new Flight(flightCode, airlineCode, origAirportCode, destAirportCode, planeType, 0, getFlightDate(flightCode));
+        Flight flight = new Flight(flightCode, airlineCode, origAirportCode, destAirportCode, planeType, 0, getDay(dayOfWeek));
 	    flights.put(flightCode, flight);
-        FlightQuery flightQuery = new FlightQuery(flightCode, airlineCode, origAirportCode, getAirportState(origAirportCode),
-                                                  destAirportCode, getAirportState(destAirportCode),
+        FlightQuery flightQuery = new FlightQuery(flightCode, airlineCode, origAirportCode, getAirportCity(origAirportCode),
+                                                  destAirportCode, getAirportCity(destAirportCode),
                                                   planeType, planes.get(planeType), getSeatsTaken(flightCode),
                                                   getFlightDate(flightCode), 0, getDay(dayOfWeek));
         datastore.save(flightQuery);
@@ -93,15 +105,22 @@ public class ProjectFunctions {
 
     public void addTraveler(int travelerId, String name) {
         System.out.println(String.format("Adding traveller %d\t%s", travelerId, name));
-        //TravellerQuery travellerQuery = new TravellerQuery();
+        Map<Integer, TravellerFlight> localFlights = new HashMap<>();
+        for (int i = 0; i < travellerFlights.length; i++)
+            if (travelerId == travellerFlights[i].travellerId)
+                localFlights.put(flight);
+        TravellerQuery travellerQuery = new TravellerQuery(travelerId, name, localFlights);
 	    travelers.put(travelerId, name);
-        //datastore.save(traveler);
+        datastore.save(travellerQuery);
     }
 
     public void makeReservation(int reservationId, int travelerId, String flightCode, int dayOfWeek, Date date) {
         System.out.println(String.format("Making reservation %d for traveller %d on flight %s for the date %s", reservationId, travelerId, flightCode, date.toString()));
         Reservation reservation = new Reservation(reservationId, flightCode, travelerId, dayOfWeek, 0, date);
 	    reservations.put(reservationId, reservation);
-        datastore.save(reservation);
+        Flight flight = getFlight(flightCode);
+        TravellerFlight travellerFLight = new TravellerFlight(reservationId, flightCode, 0, getAirportCity(flight.origin),
+                                                              getAirtportCity(flight.destination), flight.origin, flight.destination,
+                                                              flight.DayOfWeek, flight.plane, flight.airline);
     }
 }

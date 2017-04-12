@@ -11,16 +11,16 @@ public class Flight {
 	public String destination;
 	public String plane;
 	public int distance;
-	public Date date;
+	public String dayOfWeek;
 
     public Flight(String number, String airline, String origin, String destination,
-				  String plane, int distance, Date date) {
+				  String plane, int distance, String dayOfWeek) {
         this.number 		= number;
         this.airline        = airline;
 		this.origin 		= origin;
 		this.destination	= destination;
 		this.plane			= plane;
 		this.distance		= distance;
-		this.date		= date;
+		this.dayOfWeek		= dayOfWeek;
     }
 }

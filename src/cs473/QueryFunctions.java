@@ -39,12 +39,12 @@ public class QueryFunctions {
      * and print something useful. Look at the sample Airline object for an example of this.
      */
     public List<Object> flightAvailability(String originationAirportCode, String destinationAirportCode, Date date) {
-        return datastore.createQuery(FlightQuery.class)
+        /*return datastore.createQuery(FlightQuery.class)
                         .field("date").equal(date)
                         .field("fromAirport").equal(originationAirportCode)
                         .field("toAirport").equal(destinationAirportCode)
                         .field("seatsTaken").lessThan(field("seats"))
-                        .asList();
+                        .asList(); */ return null;
     }
 
     /**
@@ -54,7 +54,7 @@ public class QueryFunctions {
      * instead of a date range.
      */
     public List<Object> flightOverbooked(boolean checkOriginationCity, String airportCode, Date date) {
-        if (checkOriginationCity)
+        /* if (checkOriginationCity)
             return datastore.createQuery(FlightQuery.class)
                             .field("fromAirport").equal(airportCode)
                             .field("seatsTaken").greaterThanOrEq(field("seats"))
@@ -64,7 +64,7 @@ public class QueryFunctions {
                             .field("date").equal(date)
                             .field("toAirport").equal(airportCode)
                             .field("seatsTaken").greaterThanOrEq(field("seats"))
-                            .asList();
+                            .asList(); */ return null;
     }
 
     /**
@@ -75,7 +75,7 @@ public class QueryFunctions {
      * Demand is to be calculated as the percentage of possible seats originating at the airport that are sold.
      */
     public String highestDemand(Date date) {
-        
+        return null;
     }
 
     /**
@@ -93,10 +93,10 @@ public class QueryFunctions {
      * different airport than the one with the lowest demand.
      */
     public String mostAvailableSeats(Date date) {
-        return datastore.createQuery("CityQuery.class")
+        /* return datastore.createQuery("CityQuery.class")
                         .field("date").equals(date)
                         .sort("seatsTaken", 1)
-                        .limit(1);
+                        .limit(1); */ return null;
     }
 
     /**

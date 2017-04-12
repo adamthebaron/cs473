@@ -13,8 +13,8 @@ import java.util.stream.Stream;
 public class Main {
 
     public static void main(String[] args) {
-        //MogoClientURI uri = new MongoClientURI("mongodb://cs473:ButlerDawgz@cs473-shard-00-00-7choh.mongodb.net:37012/akessle1?ssl=true&authSource=admin");
-        //final Datastore datastore = morphia.createDatastore(new MongoClient(uri), "travel473");
+        //MogoClientURI uri = new MongoClientURI("mongodb://cs473:ButlerDawgz@cs473-shard-00-00-7choh.mongodb.net:37012/garpon?ssl=true&authSource=admin");
+        //final Datastore datastore = morphia.createDatastore(new MongoClient(uri), "garpon");
 
         // Create the Morphia instance through which all access to Mongo is going to occur
         final Morphia morphia = new Morphia();
@@ -26,7 +26,7 @@ public class Main {
         // should use a different dbName instead of travel473. This line of code will change slightly when we start
         // connecting to a replica set, but it will be the only code that will have to change. For now get your app
         // running connecting to a single instance of mongo.
-        final Datastore datastore = morphia.createDatastore(new MongoClient(args[0], 27017), "cs473project");
+        final Datastore datastore = morphia.createDatastore(new MongoClient(args[0], 27017), "garpon");
 
         // Create the ProjectFunctions class
         final ProjectFunctions projectFunctions = new ProjectFunctions(datastore);

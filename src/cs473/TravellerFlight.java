@@ -5,31 +5,31 @@ import java.util.Date;
 
 public class TravellerFlight {
     @Id
-	private int reservationId;
-	private int flightNumber;
-	private int seat;
-	private int distance;
-	private String from;
-	private String to;
-    private String airportFrom;
-    private String airportTo;
-	private Date date;
-	private String day;
-	private String plane;
-	private String airline;
+    public int travellerId;
+	public int reservationId;
+	public int flightNumber;
+	public boolean seat;
+	public int distance;
+	public String from;
+	public String to;
+    public String airportFrom;
+    public String airportTo;
+	//public Date date;
+	public String day;
+	public String plane;
+	public String airline;
 
-    public TravellerFlight(int reservationId, int flightNumber, int seat, int distance,
+    public TravellerFlight(int travellerId, int reservationId, int flightNumber, int distance,
 				           String from, String to, String airportFrom, String airportTo,
-                           Date date, String day, String plane, String airline) {
+                           String day, String plane, String airline) {
+        this.travellerId   = travellerId;
         this.reservationId = reservationId;
 		this.flightNumber  = flightNumber;
-		this.seat 		   = seat;
 		this.distance	   = distance;
 		this.from		   = from;
 		this.to			   = to;
         this.airportFrom   = airportFrom;
         this.airportTo	   = airportTo;
-		this.date		   = date;
 		this.day		   = day;
 		this.plane		   = plane;
 		this.airline	   = airline;

@@ -9,9 +9,9 @@ public class TravellerQuery {
     @Id
     private int id;
     private String name;
-    private Map<Integer, TravellerFlight> flights;
+    public TravellerFlight flights[];
 
-    public TravellerQuery(int id, String name, Map<Integer, TravellerFlight> flights) {
+    public TravellerQuery(int id, String name, TravellerFlight flights[]) {
         this.id 	= id;
         this.name	= name;
         this.flights = flights;
