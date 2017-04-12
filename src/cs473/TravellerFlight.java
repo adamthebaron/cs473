@@ -2,13 +2,14 @@ package cs473;
 
 import org.mongodb.morphia.annotations.Id;
 import java.util.Date;
+import java.util.ArrayList;
 
 public class TravellerFlight {
     @Id
     public int travellerId;
 	public int reservationId;
-	public int flightNumber;
-	public boolean seat;
+	public String flightCode;
+	//public boolean seat;
 	public int distance;
 	public String from;
 	public String to;
@@ -19,12 +20,12 @@ public class TravellerFlight {
 	public String plane;
 	public String airline;
 
-    public TravellerFlight(int travellerId, int reservationId, int flightNumber, int distance,
+    public TravellerFlight(int travellerId, int reservationId, String flightCode, int distance,
 				           String from, String to, String airportFrom, String airportTo,
                            String day, String plane, String airline) {
         this.travellerId   = travellerId;
         this.reservationId = reservationId;
-		this.flightNumber  = flightNumber;
+		this.flightCode    = flightCode;
 		this.distance	   = distance;
 		this.from		   = from;
 		this.to			   = to;

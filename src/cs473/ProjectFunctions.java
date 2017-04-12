@@ -5,12 +5,17 @@ import org.mongodb.morphia.Datastore;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.ArrayList;
 
 // This is the class that you will need to modify in order to make our application work.
 
 //order data must be imported:
 // 1: reservations
-// 2: travelers
+// 2: flights
+// 3: travelers
+// 2: airports
+// 4: airlines
+// 5: airplanes
 public class ProjectFunctions {
     private final Datastore datastore;
 
@@ -24,7 +29,7 @@ public class ProjectFunctions {
     public final Map<String, Integer> planes = new HashMap<>();
     public final Map<Integer, Reservation> reservations = new HashMap<>();
     public final Map<Integer, String> travelers = new HashMap<>();
-    public TravellerFlight travellerFlights[];
+    public ArrayList<TravellerFlight> travellerFlights = new ArrayList<>();
 
     public int getSeatsTaken(String flight) {
         int seatsTaken = 0;
@@ -69,7 +74,7 @@ public class ProjectFunctions {
 
     public Flight getFlight(String flightCode) {
         for (Flight flight: flights.values())
-            if (flightCode.equals(flights.number))
+            if (flightCode.equals(flight.number))
                 return flight;
         return null;
     }
@@ -105,10 +110,10 @@ public class ProjectFunctions {
 
     public void addTraveler(int travelerId, String name) {
         System.out.println(String.format("Adding traveller %d\t%s", travelerId, name));
-        Map<Integer, TravellerFlight> localFlights = new HashMap<>();
-        for (int i = 0; i < travellerFlights.length; i++)
-            if (travelerId == travellerFlights[i].travellerId)
-                localFlights.put(flight);
+        ArrayList<TravellerFlight> localFlights = new ArrayList<>();
+        for (TravellerFlight flight: travellerFlights)
+            if (travelerId == flight.travellerId)
+                localFlights.add(flight);
         TravellerQuery travellerQuery = new TravellerQuery(travelerId, name, localFlights);
 	    travelers.put(travelerId, name);
         datastore.save(travellerQuery);
@@ -119,8 +124,8 @@ public class ProjectFunctions {
         Reservation reservation = new Reservation(reservationId, flightCode, travelerId, dayOfWeek, 0, date);
 	    reservations.put(reservationId, reservation);
         Flight flight = getFlight(flightCode);
-        TravellerFlight travellerFLight = new TravellerFlight(reservationId, flightCode, 0, getAirportCity(flight.origin),
-                                                              getAirtportCity(flight.destination), flight.origin, flight.destination,
-                                                              flight.DayOfWeek, flight.plane, flight.airline);
+        travellerFlights.add(new TravellerFlight(travelerId, reservationId, flightCode, 0, getAirportCity(flight.origin),
+                                                              getAirportCity(flight.destination), flight.origin, flight.destination,
+                                                              flight.dayOfWeek, flight.plane, flight.airline));
     }
 }

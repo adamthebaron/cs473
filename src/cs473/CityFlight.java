@@ -21,7 +21,7 @@ public class CityFlight {
                       Date date, String day) {
         this.number = number;
 		this.airport  = airport;
-		this.to 		   = to;
+		this.to = to;
         this.airportTo = airportTo;
         this.airline = airline;
         this.airplane = airplane;
