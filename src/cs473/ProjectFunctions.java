@@ -10,8 +10,8 @@ import java.util.ArrayList;
 // This is the class that you will need to modify in order to make our application work.
 
 //order data must be imported:
-// 1: reservations
-// 2: flights
+// 1: flights
+// 2: reservations
 // 3: travelers
 // 2: airports
 // 4: airlines

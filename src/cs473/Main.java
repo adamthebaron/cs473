@@ -7,8 +7,14 @@ import org.mongodb.morphia.Morphia;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.sql.Date;
+//import java.sql.Date;
 import java.util.stream.Stream;
+import java.util.Scanner;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 public class Main {
 
@@ -26,16 +32,19 @@ public class Main {
         // should use a different dbName instead of travel473. This line of code will change slightly when we start
         // connecting to a replica set, but it will be the only code that will have to change. For now get your app
         // running connecting to a single instance of mongo.
-        final Datastore datastore = morphia.createDatastore(new MongoClient(args[0], 27017), "garpon");
+        final Datastore datastore = morphia.createDatastore(new MongoClient(args[0], 27017), "garpon2");
 
         // Create the ProjectFunctions class
         final ProjectFunctions projectFunctions = new ProjectFunctions(datastore);
+        final QueryFunctions queryFunctions = new QueryFunctions(datastore);
+
+        Scanner scanner = new Scanner(System.in);
 
         // Now load the file
         String fileName = args[1];
 
         //read file into stream, try-with-resources
-        try (Stream<String> stream = Files.lines(Paths.get(fileName))) {
+        /*try (Stream<String> stream = Files.lines(Paths.get(fileName))) {
             stream.forEach(line -> {
                 String[] splits = line.split(",");
                 switch(splits[0]) {
@@ -61,6 +70,23 @@ public class Main {
             });
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
+
+        System.out.println("Executing Queries");
+        System.out.println("flightAvailability();");
+        System.out.println("Returns all flights between the two airports on a given date. Note that I have simplified this from the\n");
+        System.out.println("original requirements that specified a date range.  This function returns a generic Object so you can return\n");
+        System.out.println("any object type that makes sense for your data model. The class your return should override the toString() method\n");
+        System.out.println("and print something useful. Look at the sample Airline object for an example of this.");
+        System.out.print("Enter origin airport: ");
+        String originAirport = scanner.next();
+        System.out.print("Enter destination airport: ");
+        String destinationAirport = scanner.next();
+        System.out.print("Enter date: ");
+        String dateInput = scanner.next();
+        DateFormat formattedDate = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = formattedDate.parse(dateInput);
+        List<FlightQuery> flightsavailable = queryFunctions.flightAvailability(originAirport, destinationAirport, date);
+
     }
 }

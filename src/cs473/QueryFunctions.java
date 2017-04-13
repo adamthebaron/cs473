@@ -38,13 +38,12 @@ public class QueryFunctions {
      * any object type that makes sense for your data model. The class your return should override the toString() method
      * and print something useful. Look at the sample Airline object for an example of this.
      */
-    public List<Object> flightAvailability(String originationAirportCode, String destinationAirportCode, Date date) {
-        /*return datastore.createQuery(FlightQuery.class)
-                        .field("date").equal(date)
-                        .field("fromAirport").equal(originationAirportCode)
-                        .field("toAirport").equal(destinationAirportCode)
-                        .field("seatsTaken").lessThan(field("seats"))
-                        .asList(); */ return null;
+    public List<FlightQuery> flightAvailability(String originationAirportCode, String destinationAirportCode, Date date) {
+        return datastore.createQuery(FlightQuery.class)
+               .field("day").equal(getDay((dayOfWeek(date))))
+               .field("fromAirport").equal(originationAirportCode)
+               .field("toAirport").equal(destinationAirportCode)
+               .asList();
     }
 
     /**
