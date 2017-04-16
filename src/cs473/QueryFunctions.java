@@ -41,6 +41,7 @@ public class QueryFunctions {
      * any object type that makes sense for your data model. The class your return should override the toString() method
      * and print something useful. Look at the sample Airline object for an example of this.
      */
+     // db.FlightQuery.find({$and: [{"fromAirport": originationAirportCode}, {"toAirport": destinationAirportCode}, {"day": date}]}).pretty()
     public List<FlightResult> flightAvailability(String originationAirportCode, String destinationAirportCode, Date date) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE");
         System.out.println("From: " + originationAirportCode + " To: " + destinationAirportCode + " Date: " + dateFormat.format(date).toString());
@@ -60,18 +61,30 @@ public class QueryFunctions {
      * false then you should check flight arriving at the airport that day. I have simplified this to a single date
      * instead of a date range.
      */
-    public List<FlightQuery> flightOverbooked(boolean checkOriginationCity, String airportCode, Date date) {
+    public List<FlightResult> flightOverbooked(boolean checkOriginationCity, String airportCode, Date date) {
+        List<FlightResult> returnStuff = new ArrayList<>();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE");
+        Query<FlightResult> querya = datastore.createQuery(FlightResult.class);
         if (checkOriginationCity)
-            return datastore.createQuery(FlightQuery.class)
-                            .field("fromAirport").equal(airportCode)
-                            .filter("seatsTaken >=", "seats")
-                            .asList();
+            querya.and(
+                querya.criteria("fromAirport").equal(airportCode),
+                querya.criteria("day").equal(dateFormat.format(date))
+            );
         else
-            return datastore.createQuery(FlightQuery.class)
-                            .field("date").equal(date)
-                            .field("toAirport").equal(airportCode)
-                            .filter("seatsTaken >=", "seats")
-                            .asList();
+            querya.and(
+                querya.criteria("toAirport").equal(airportCode),
+                querya.criteria("day").equal(dateFormat.format(date))
+            );
+        List<FlightResult> flights = querya.asList();
+        for (FlightResult flight: flights) {
+            String flightCode = flight.number;
+            Query<TravellerResult> queryb = datastore.createQuery(TravellerResult.class);
+            queryb.criteria("flights.flightCode").equal(flightCode);
+            List<TravellerResult> reservations = queryb.asList();
+            if (reservations.size() > flight.seats)
+                returnStuff.add(flight);
+        }
+        return returnStuff;
     }
 
     /**

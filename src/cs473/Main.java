@@ -76,6 +76,7 @@ public class Main {
                 Thread.sleep(5000);
         } catch(InterruptedException ex) { }
         System.out.println("Executing Queries");
+        /* 1 */
         System.out.println("flightAvailability();");
         System.out.println("Returns all flights between the two airports on a given date. Note that I have simplified this from the");
         System.out.println("original requirements that specified a date range.  This function returns a generic Object so you can return");
@@ -92,6 +93,23 @@ public class Main {
         List<FlightResult> flightsavailable = queryFunctions.flightAvailability(originAirport, destinationAirport, now);
         System.out.println("Num of flights: " + flightsavailable.size());
         for (FlightResult flight: flightsavailable) {
+            System.out.println(flight.toString());
+        }
+        /* 2 */
+        System.out.println("flightOverbooked();");
+        System.out.println("Returns all flights that are overbooked on the given day at the airport in question. If the boolean");
+        System.out.println("checkOriginationCity is true, then you should check flights leaving the airport on the day. If the value is");
+        System.out.println("false then you should check flight arriving at the airport that day. I have simplified this to a single date");
+        System.out.println("instead of a date range.");
+        System.out.print("Use from or to: ");
+        boolean checkOriginationCity = scanner.nextBoolean();
+        System.out.print("Enter airport code: ");
+        String overbookedAirport = scanner.next();
+        System.out.print("Using current day of week: ");
+        System.out.println(dateFormat.format(now));
+        List<FlightResult> flightsOverbooked = queryFunctions.flightOverbooked(checkOriginationCity, overbookedAirport, now);
+        System.out.println("Num of flights: " + flightsOverbooked.size());
+        for (FlightResult flight: flightsOverbooked) {
             System.out.println(flight.toString());
         }
     }
