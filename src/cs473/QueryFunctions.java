@@ -1,8 +1,11 @@
 package cs473;
 
 import org.mongodb.morphia.Datastore;
+import org.mongodb.morphia.Morphia;
+import org.mongodb.morphia.query.Query;
 
 import java.util.*;
+import java.text.SimpleDateFormat;
 
 public class QueryFunctions {
     private Datastore datastore;
@@ -38,12 +41,16 @@ public class QueryFunctions {
      * any object type that makes sense for your data model. The class your return should override the toString() method
      * and print something useful. Look at the sample Airline object for an example of this.
      */
-    public List<FlightQuery> flightAvailability(String originationAirportCode, String destinationAirportCode, Date date) {
-        return datastore.createQuery(FlightQuery.class)
-               .field("day").equal(getDay((dayOfWeek(date))))
-               .field("fromAirport").equal(originationAirportCode)
-               .field("toAirport").equal(destinationAirportCode)
-               .asList();
+    public List<FlightResult> flightAvailability(String originationAirportCode, String destinationAirportCode, Date date) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE");
+        System.out.println("From: " + originationAirportCode + " To: " + destinationAirportCode + " Date: " + dateFormat.format(date).toString());
+        Query<FlightResult> query = datastore.createQuery(FlightResult.class)
+                               .filter("day =", dateFormat.format(date))
+                               .filter("fromAirport =", originationAirportCode)
+                               .filter("toAirport =", destinationAirportCode);
+                               //.get();
+        List<FlightResult> result = query.asList();
+        return result;
     }
 
     /**
@@ -52,18 +59,18 @@ public class QueryFunctions {
      * false then you should check flight arriving at the airport that day. I have simplified this to a single date
      * instead of a date range.
      */
-    public List<Object> flightOverbooked(boolean checkOriginationCity, String airportCode, Date date) {
-        /* if (checkOriginationCity)
+    public List<FlightQuery> flightOverbooked(boolean checkOriginationCity, String airportCode, Date date) {
+        if (checkOriginationCity)
             return datastore.createQuery(FlightQuery.class)
                             .field("fromAirport").equal(airportCode)
-                            .field("seatsTaken").greaterThanOrEq(field("seats"))
+                            .filter("seatsTaken >=", "seats")
                             .asList();
         else
             return datastore.createQuery(FlightQuery.class)
                             .field("date").equal(date)
                             .field("toAirport").equal(airportCode)
-                            .field("seatsTaken").greaterThanOrEq(field("seats"))
-                            .asList(); */ return null;
+                            .filter("seatsTaken >=", "seats")
+                            .asList();
     }
 
     /**
@@ -92,16 +99,17 @@ public class QueryFunctions {
      * different airport than the one with the lowest demand.
      */
     public String mostAvailableSeats(Date date) {
-        /* return datastore.createQuery("CityQuery.class")
+        /*return datastore.createQuery(FlightQuery.class)
                         .field("date").equals(date)
                         .sort("seatsTaken", 1)
-                        .limit(1); */ return null;
+                        .limit(1);*/ return null;
     }
 
     /**
      * For this query you are going to return a map of maps. The outmost map will have as keys the airline codes. Each
      * entry in this map will map a day of week (integers 0 - 6) to the number of miles flown.
      */
+     //CANT DO
     public Map<String, Map<Integer, Integer>> totalMilesAnalysis() {
         return null;
     }
@@ -110,6 +118,7 @@ public class QueryFunctions {
      * This is a simplified version of the query in the original documentation. You simply need to give the
      * average miles flown by the 100 travellers with the most miles flown all time.
      */
+     //CANT DO
     public int top100TravellerMiles() {
         return 0;
     }
@@ -117,6 +126,7 @@ public class QueryFunctions {
     /**
      * This function will get the day of week for a date. It has to subtract one from the value returned from c.get(...)
      * because Java calendar uses 1 for Sunday, 2 for Monday and our data starts at 0 for Sunday.
+     * ref: http://stackoverflow.com/questions/5270272/how-to-determine-day-of-week-by-passing-specific-date
      */
     private int dayOfWeek(Date date) {
         Calendar c = Calendar.getInstance();

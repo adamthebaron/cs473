@@ -19,4 +19,9 @@ public class TravellerQuery {
     public TravellerFlight getFlight(int id) {
         return flights.get(id);
     }
+
+    @Override
+    public String toString() {
+        return "Name: " + name;
+    }
 }

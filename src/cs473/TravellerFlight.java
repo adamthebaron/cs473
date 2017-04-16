@@ -35,4 +35,9 @@ public class TravellerFlight {
 		this.plane		   = plane;
 		this.airline	   = airline;
     }
+
+    @Override
+    public String toString() {
+        return "Flight: " + flightCode + " From: " + from + " To: " + to + " Plane: " + plane + " Airline: " + airline;
+    }
 }

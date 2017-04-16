@@ -32,7 +32,7 @@ public class Main {
         // should use a different dbName instead of travel473. This line of code will change slightly when we start
         // connecting to a replica set, but it will be the only code that will have to change. For now get your app
         // running connecting to a single instance of mongo.
-        final Datastore datastore = morphia.createDatastore(new MongoClient(args[0], 27017), "garpon2");
+        final Datastore datastore = morphia.createDatastore(new MongoClient(args[0], 27017), "garpon3");
 
         // Create the ProjectFunctions class
         final ProjectFunctions projectFunctions = new ProjectFunctions(datastore);
@@ -72,21 +72,27 @@ public class Main {
             e.printStackTrace();
         }*/
 
+        try {
+                Thread.sleep(5000);
+        } catch(InterruptedException ex) { }
         System.out.println("Executing Queries");
         System.out.println("flightAvailability();");
-        System.out.println("Returns all flights between the two airports on a given date. Note that I have simplified this from the\n");
-        System.out.println("original requirements that specified a date range.  This function returns a generic Object so you can return\n");
-        System.out.println("any object type that makes sense for your data model. The class your return should override the toString() method\n");
+        System.out.println("Returns all flights between the two airports on a given date. Note that I have simplified this from the");
+        System.out.println("original requirements that specified a date range.  This function returns a generic Object so you can return");
+        System.out.println("any object type that makes sense for your data model. The class your return should override the toString() method");
         System.out.println("and print something useful. Look at the sample Airline object for an example of this.");
         System.out.print("Enter origin airport: ");
         String originAirport = scanner.next();
         System.out.print("Enter destination airport: ");
         String destinationAirport = scanner.next();
-        System.out.print("Enter date: ");
-        String dateInput = scanner.next();
-        DateFormat formattedDate = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = formattedDate.parse(dateInput);
-        List<FlightQuery> flightsavailable = queryFunctions.flightAvailability(originAirport, destinationAirport, date);
-
+        System.out.print("Using current day of week:  ");
+        Date now = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE");
+        System.out.println(dateFormat.format(now));
+        List<FlightResult> flightsavailable = queryFunctions.flightAvailability(originAirport, destinationAirport, now);
+        System.out.println("Num of flights: " + flightsavailable.size());
+        for (FlightResult flight: flightsavailable) {
+            System.out.println(flight.toString());
+        }
     }
 }

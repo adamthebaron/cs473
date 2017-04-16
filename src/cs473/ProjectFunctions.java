@@ -103,9 +103,9 @@ public class ProjectFunctions {
         System.out.println(String.format("Adding flight %s\tfrom %s to %s on %d\tplane %s", flightCode, origAirportCode, destAirportCode, dayOfWeek, planeType));
         Flight flight = new Flight(flightCode, airlineCode, origAirportCode, destAirportCode, planeType, 0, getDay(dayOfWeek));
 	    flights.put(flightCode, flight);
-        FlightQuery flightQuery = new FlightQuery(flightCode, airlineCode, origAirportCode, getAirportCity(origAirportCode),
-                                                  destAirportCode, getAirportCity(destAirportCode),
-                                                  planeType, planes.get(planeType), getSeatsTaken(flightCode),
+        FlightQuery flightQuery = new FlightQuery(flightCode, airlineCode, getAirportCity(origAirportCode), origAirportCode,
+                                                  getAirportCity(destAirportCode), destAirportCode,
+                                                  planeType, planes.get(planeType),
                                                   getFlightDate(flightCode), 0, getDay(dayOfWeek));
         datastore.save(flightQuery);
         flightQueries.add(flightQuery);

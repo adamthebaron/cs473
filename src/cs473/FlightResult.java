@@ -3,8 +3,9 @@ package cs473;
 import org.mongodb.morphia.annotations.Id;
 import java.util.Date;
 
-public class FlightQuery {
+public class FlightResult {
     @Id
+    public String className;
     public String number;
     public String airline;
     public String from;
@@ -18,8 +19,9 @@ public class FlightQuery {
 	public int distance;
 	public String day;
 
-    public FlightQuery(String number, String airline, String from, String fromAirport, String to, String toAirport, String airplane,
+    public FlightResult(String className, String number, String airline, String from, String fromAirport, String to, String toAirport, String airplane,
 					   int seats, Date date, int distance, String day) {
+        this.className = className;
         this. number 	= number;
         this.airline	= airline;
         this.from = from;
