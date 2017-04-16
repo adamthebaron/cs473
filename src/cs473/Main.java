@@ -32,7 +32,7 @@ public class Main {
         // should use a different dbName instead of travel473. This line of code will change slightly when we start
         // connecting to a replica set, but it will be the only code that will have to change. For now get your app
         // running connecting to a single instance of mongo.
-        final Datastore datastore = morphia.createDatastore(new MongoClient(args[0], 27017), "garpon3");
+        final Datastore datastore = morphia.createDatastore(new MongoClient(args[0], 27017), "garpon4");
 
         // Create the ProjectFunctions class
         final ProjectFunctions projectFunctions = new ProjectFunctions(datastore);

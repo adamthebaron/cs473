@@ -44,11 +44,12 @@ public class QueryFunctions {
     public List<FlightResult> flightAvailability(String originationAirportCode, String destinationAirportCode, Date date) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE");
         System.out.println("From: " + originationAirportCode + " To: " + destinationAirportCode + " Date: " + dateFormat.format(date).toString());
-        Query<FlightResult> query = datastore.createQuery(FlightResult.class)
-                               .filter("day =", dateFormat.format(date))
-                               .filter("fromAirport =", originationAirportCode)
-                               .filter("toAirport =", destinationAirportCode);
-                               //.get();
+        Query<FlightResult> query = datastore.createQuery(FlightResult.class);
+	query.and(
+			query.criteria("day").equal(dateFormat.format(date)),
+			query.criteria("fromAirport").equal(originationAirportCode),
+			query.criteria("toAirport").equal(destinationAirportCode)
+    	);
         List<FlightResult> result = query.asList();
         return result;
     }
