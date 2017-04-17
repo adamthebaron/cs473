@@ -89,16 +89,7 @@ public class QueryFunctions {
      * Demand is to be calculated as the percentage of possible seats originating at the airport that are sold.
      */
     public String highestDemand(Date date) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE");
-        Query<TravellerQuery> travellerQuery = datastore.createQuery(TravellerQuery.class);
-        List<TravellerQuery> reservations = new ArrayList<>();
-        List<FlightQuery> flights = datastore.createQuery(FlightQuery.class)
-                                             .field("day").equal(dateFormat.format(date))
-                                             .asList();
-        for (FlightQuery flight: flights) {
-            
-        }
-        return null;
+        DBObject query = BasicDBObjectBuilder.start()
     }
 
     /**
