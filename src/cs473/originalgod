@@ -12,7 +12,7 @@ db.Reservation.aggregate([
     }
   },
   { $lookup: {
-      from: "Flight",
+      from: "FlightQuery",
       localField: "flight",
       foreignField: "_id",
       as: "flight_info"

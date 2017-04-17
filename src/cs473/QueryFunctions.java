@@ -89,7 +89,7 @@ public class QueryFunctions {
      * Demand is to be calculated as the percentage of possible seats originating at the airport that are sold.
      */
     public String highestDemand(Date date) {
-        DBObject query = BasicDBObjectBuilder.start()
+        return null;
     }
 
     /**

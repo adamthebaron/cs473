@@ -105,7 +105,7 @@ public class ProjectFunctions {
         airports.put(airportCode, airport);
         AirportQuery airportQuery = new AirportQuery(airportCode, city, state, getNumOfReservations(airportCode));
         airportQueries.add(airportQuery);
-        datastore.save(airportQuery);
+        //datastore.save(airportQuery);
     }
 
     public void addPlane(String planeType, int seats) {
@@ -122,7 +122,7 @@ public class ProjectFunctions {
                                                   getAirportCity(destAirportCode), destAirportCode,
                                                   planeType, planes.get(planeType),
                                                   0, getDay(dayOfWeek));
-        datastore.save(flightQuery);
+        //datastore.save(flightQuery);
         flightQueries.add(flightQuery);
     }
 
@@ -134,7 +134,7 @@ public class ProjectFunctions {
                 localFlights.add(flight);
         TravellerQuery travellerQuery = new TravellerQuery(travelerId, name, localFlights);
 	    travelers.put(travelerId, name);
-        datastore.save(travellerQuery);
+        //datastore.save(travellerQuery);
         travellerQueries.add(travellerQuery);
     }
 
@@ -142,7 +142,7 @@ public class ProjectFunctions {
         System.out.println(String.format("Making reservation %d for traveller %d on flight %s for the date %s", reservationId, travelerId, flightCode, date.toString()));
         Reservation reservation = new Reservation(reservationId, flightCode, travelerId, dayOfWeek, 0, date);
 	    reservations.put(reservationId, reservation);
-        //datastore.save(reservation);
+        datastore.save(reservation);
         Flight flight = getFlight(flightCode);
         travellerFlights.add(new TravellerFlight(travelerId, reservationId, flightCode, 0, getAirportCity(flight.origin),
                                                               getAirportCity(flight.destination), flight.origin, flight.destination,

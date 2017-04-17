@@ -1,3 +1,4 @@
+//working demand query
 db.Reservation.aggregate([
   { $group: {
       _id: "$flight",
@@ -6,16 +7,10 @@ db.Reservation.aggregate([
       }
     }
   },
-  {
-  $unwind: "$reservations"
-  },
-  {
-  $group: {
-  	_id: "_id",
-	count: {
-		$sum: 1
-	}
-  }
+  { $project: {
+      flight: "$_id",
+      Reservations: {$size: "$reservations"}
+    }
   },
   { $lookup: {
       from: "FlightQuery",
@@ -23,4 +18,23 @@ db.Reservation.aggregate([
       foreignField: "_id",
       as: "flight_info"
     }
-  }])
+  },
+  {
+ 	$unwind: "$flight_info"
+  },
+  { $project: {
+      reservations: "$Reservations",
+	  seats: "$flight_info.seats",
+	  flight: "$flight"
+    }
+  },
+  { $project: {
+      demand: {
+         $divide: ["$reservations", "$seats"]
+      }
+    }
+  },
+  {
+  	$sort: { demand: -1 }
+  }
+  ])
