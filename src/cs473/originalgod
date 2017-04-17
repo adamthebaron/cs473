@@ -1,0 +1,46 @@
+db.Reservation.aggregate([
+  { $group: {
+      _id: "$flight",
+      reservations: {
+        $push: { _id: "$_id" }
+      }
+    }
+  },
+  { $project: {
+      flight: "$_id",
+      numReservations: {$size: "$reservations"}
+    }
+  },
+  { $lookup: {
+      from: "Flight",
+      localField: "flight",
+      foreignField: "_id",
+      as: "flight_info"
+    }
+  },
+  { $project: {
+      reservations: "$numReservations",
+      flight: { $arrayElemAt: ["$flight_info", 0]}
+    }
+  },
+  { $project: {
+      reservations: "$reservations",
+      availableSeats: "$flight.planeSeats",
+      flight: "$flight"
+    }
+  },
+
+  { $group: {
+      _id: "$flight.origin",
+      reservations: { $sum: "$reservations"},
+      availableSeats: { $sum: "$availableSeats"}
+    }
+  },
+  { $project: {
+      demand: {
+         $divide: ["$reservations", "$availableSeats"]
+      }
+    }
+  },
+  { $sort: {demand: -1}}
+])

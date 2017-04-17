@@ -1,0 +1,26 @@
+db.Reservation.aggregate([
+  { $group: {
+      _id: "$flight",
+      reservations: {
+        $push: { _id: "$_id" }
+      }
+    }
+  },
+  {
+  $unwind: "$reservations"
+  },
+  {
+  $group: {
+  	_id: "_id",
+	count: {
+		$sum: 1
+	}
+  }
+  },
+  { $lookup: {
+      from: "FlightQuery",
+      localField: "flight",
+      foreignField: "_id",
+      as: "flight_info"
+    }
+  }])
