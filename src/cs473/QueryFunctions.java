@@ -89,7 +89,7 @@ public class QueryFunctions {
      * Demand is to be calculated as the percentage of possible seats originating at the airport that are sold.
      */
     public String highestDemand(Date date) {
-        /*Query<Reservation> reservationQuery =
+        Query<Reservation> reservationQuery =
         datastore.createQuery(Reservation.class)
                  .field("date").equal(date.toString());
 
@@ -98,14 +98,14 @@ public class QueryFunctions {
                  .match(reservationQuery)
                  .group("flight", grouping("reservations", push("_id")))
                  .project(projection("flight", "_id"),
-                          projection("Reservations", ))
+                          projection("Reservations", /* $size: "$reservations" */))
                  .lookup("FlightQuery", "flight", "_id", "flight_info")
                  .unwind("flight_info")
                  .project(projection("reservations", "Reservations"),
                           projection("seats", "flight_info.seats"),
                           projection("flight", "flight"))
                  .project(projection("demand", divide("reservations", "seats")))
-                 .sort(descending("demand"))*/ return null;
+                 .sort(descending("demand"));
     }
 
     /**
