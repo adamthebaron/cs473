@@ -21,8 +21,8 @@ import java.util.logging.Level;
 public class Main {
 
     public static void main(String[] args) {
-        //Logger mongoLogger = Logger.getLogger("org.mongodb");
-        //mongoLogger.setLevel(Level.SEVERE);
+        Logger mongoLogger = Logger.getLogger("org.mongodb");
+        mongoLogger.setLevel(Level.SEVERE);
         /*// Create the Morphia instance through which all access to Mongo is going to occur
         final Morphia morphia = new Morphia();
 
@@ -75,7 +75,7 @@ public class Main {
         String fileName = args[1];
 
         //read file into stream, try-with-resources
-        try (Stream<String> stream = Files.lines(Paths.get(fileName))) {
+        /*try (Stream<String> stream = Files.lines(Paths.get(fileName))) {
             stream.forEach(line -> {
                 String[] splits = line.split(",");
                 switch(splits[0]) {
@@ -101,9 +101,8 @@ public class Main {
             });
         } catch (IOException e) {
             e.printStackTrace();
-        }
-
-        /*try {
+        }*/
+        try {
                 Thread.sleep(5000);
         } catch(InterruptedException ex) { }
         System.out.println("Executing Queries");
@@ -142,6 +141,6 @@ public class Main {
         System.out.println("Num of flights: " + flightsOverbooked.size());
         for (FlightQuery flight: flightsOverbooked) {
             System.out.println(flight.toString());
-        }*/
+        }
     }
 }

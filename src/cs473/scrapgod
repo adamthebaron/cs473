@@ -35,6 +35,6 @@ db.Reservation.aggregate([
     }
   },
   {
-  	$sort: { demand: -1 }
+  	$sort: { demand: 1 }
   }
   ])

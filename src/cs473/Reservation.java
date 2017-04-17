@@ -20,4 +20,13 @@ public class Reservation {
         this.seat = seat;
         this.date      = date;
     }
+
+    public Reservation() {
+        id = 0;
+        flight = "";
+        traveller = 0;
+        dayOfWeek = 0;
+        seat = 0;
+        date = null;
+    }
 }
