@@ -59,26 +59,22 @@ public class QueryFunctions {
      * false then you should check flight arriving at the airport that day. I have simplified this to a single date
      * instead of a date range.
      */
-    public List<FlightResult> flightOverbooked(boolean checkOriginationCity, String airportCode, Date date) {
-        List<FlightResult> returnStuff = new ArrayList<>();
+    public List<FlightQuery> flightOverbooked(boolean checkOriginationCity, String airportCode, Date date) {
+        List<FlightQuery> returnStuff = new ArrayList<>();
         SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE");
-        Query<FlightResult> querya = datastore.createQuery(FlightResult.class);
+        Query<FlightQuery> querya = datastore.createQuery(FlightQuery.class);
         if (checkOriginationCity)
-            querya.and(
-                querya.criteria("fromAirport").equal(airportCode),
-                querya.criteria("day").equal(dateFormat.format(date))
-            );
+            querya.field("fromAirport").equal(airportCode)
+                  .field("day").equal(dateFormat.format(date));
         else
-            querya.and(
-                querya.criteria("toAirport").equal(airportCode),
-                querya.criteria("day").equal(dateFormat.format(date))
-            );
-        List<FlightResult> flights = querya.asList();
-        for (FlightResult flight: flights) {
+            querya.field("toAirport").equal(airportCode)
+                  .field("day").equal(dateFormat.format(date));
+        List<FlightQuery> flights = querya.asList();
+        for (FlightQuery flight: flights) {
             String flightCode = flight.number;
-            Query<TravellerResult> queryb = datastore.createQuery(TravellerResult.class);
-            queryb.criteria("flights.flightCode").equal(flightCode);
-            List<TravellerResult> reservations = queryb.asList();
+            Query<TravellerQuery> queryb = datastore.createQuery(TravellerQuery.class);
+            queryb.field("flights.flightCode").equal(flightCode);
+            List<TravellerQuery> reservations = queryb.asList();
             if (reservations.size() > flight.seats)
                 returnStuff.add(flight);
         }
@@ -93,6 +89,15 @@ public class QueryFunctions {
      * Demand is to be calculated as the percentage of possible seats originating at the airport that are sold.
      */
     public String highestDemand(Date date) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE");
+        Query<TravellerQuery> travellerQuery = datastore.createQuery(TravellerQuery.class);
+        List<TravellerQuery> reservations = new ArrayList<>();
+        List<FlightQuery> flights = datastore.createQuery(FlightQuery.class)
+                                             .field("day").equal(dateFormat.format(date))
+                                             .asList();
+        for (FlightQuery flight: flights) {
+            
+        }
         return null;
     }
 

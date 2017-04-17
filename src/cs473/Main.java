@@ -15,10 +15,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.logging.Logger;
+import java.util.logging.Level;
 
 public class Main {
 
     public static void main(String[] args) {
+        Logger mongoLogger = Logger.getLogger("org.mongodb");
+        mongoLogger.setLevel(Level.SEVERE);
         /*// Create the Morphia instance through which all access to Mongo is going to occur
         final Morphia morphia = new Morphia();
 
@@ -134,9 +138,9 @@ public class Main {
         String overbookedAirport = scanner.next();
         System.out.print("Using current day of week: ");
         System.out.println(dateFormat.format(now));
-        List<FlightResult> flightsOverbooked = queryFunctions.flightOverbooked(checkOriginationCity, overbookedAirport, now);
+        List<FlightQuery> flightsOverbooked = queryFunctions.flightOverbooked(checkOriginationCity, overbookedAirport, now);
         System.out.println("Num of flights: " + flightsOverbooked.size());
-        for (FlightResult flight: flightsOverbooked) {
+        for (FlightQuery flight: flightsOverbooked) {
             System.out.println(flight.toString());
         }
     }

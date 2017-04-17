@@ -36,6 +36,20 @@ public class TravellerFlight {
 		this.airline	   = airline;
     }
 
+    public TravellerFlight() {
+        travellerId = 0;
+        reservationId = 0;
+        flightCode = "";
+        distance = 0;
+        from = "";
+        to = "";
+        airportFrom = "";
+        airportTo = "";
+        day = "";
+        plane = "";
+        airline = "";
+    }
+
     @Override
     public String toString() {
         return "Flight: " + flightCode + " From: " + from + " To: " + to + " Plane: " + plane + " Airline: " + airline;

@@ -16,6 +16,12 @@ public class TravellerQuery {
         this.flights = flights;
     }
 
+    public TravellerQuery() {
+        id = 0;
+        name = "";
+        flights = null;
+    }
+
     public TravellerFlight getFlight(int id) {
         return flights.get(id);
     }
