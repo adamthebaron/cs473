@@ -32,6 +32,7 @@ public class ProjectFunctions {
     public ArrayList<FlightQuery> flightQueries = new ArrayList<>();
     public ArrayList<TravellerQuery> travellerQueries = new ArrayList<>();
     public ArrayList<TravellerFlight> travellerFlights = new ArrayList<>();
+    public ArrayList<AirportQuery> airportQueries = new ArrayList<>();
 
     public int getSeatsTaken(String flight) {
         int seatsTaken = 0;
@@ -39,6 +40,17 @@ public class ProjectFunctions {
             if (flight.equals(reservation.flight))
                 seatsTaken++;
         return seatsTaken;
+    }
+
+    public int getNumOfReservations(String airportCode) {
+        int reservations = 0;
+        for (Flight flight: flights.values()) {
+            if (airportCode.equals(flight.origin))
+                reservations++;
+            else if (airportCode.equals(flight.destination))
+                reservations++;
+        }
+        return reservations;
     }
 
     public String getDay(int day) {
@@ -91,6 +103,9 @@ public class ProjectFunctions {
         System.out.println(String.format("Adding airport %s\t%s\t%s", airportCode, state, city));
         Airport airport = new Airport(airportCode, city, state);
         airports.put(airportCode, airport);
+        AirportQuery airportQuery = new AirportQuery(airportCode, city, state, getNumOfReservations(airportCode));
+        airportQueries.add(airportQuery);
+        datastore.save(airportQuery);
     }
 
     public void addPlane(String planeType, int seats) {
@@ -106,7 +121,7 @@ public class ProjectFunctions {
         FlightQuery flightQuery = new FlightQuery(flightCode, airlineCode, getAirportCity(origAirportCode), origAirportCode,
                                                   getAirportCity(destAirportCode), destAirportCode,
                                                   planeType, planes.get(planeType),
-                                                  getFlightDate(flightCode), 0, getDay(dayOfWeek));
+                                                  0, getDay(dayOfWeek));
         datastore.save(flightQuery);
         flightQueries.add(flightQuery);
     }
@@ -119,7 +134,7 @@ public class ProjectFunctions {
                 localFlights.add(flight);
         TravellerQuery travellerQuery = new TravellerQuery(travelerId, name, localFlights);
 	    travelers.put(travelerId, name);
-        datastore.save(travellerQuery);
+        //datastore.save(travellerQuery);
         travellerQueries.add(travellerQuery);
     }
 

@@ -1,4 +1,4 @@
 #!/bin/sh
 
 javac -classpath .:../libs/* cs473/*.java
-java -classpath .:../libs/* cs473.Main pluvi.us ../files/final.csv
+java -classpath .:../libs/* cs473.Main pluvi.us ../files/final2.csv

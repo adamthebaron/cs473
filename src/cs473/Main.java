@@ -19,6 +19,33 @@ import java.text.SimpleDateFormat;
 public class Main {
 
     public static void main(String[] args) {
+        /*// Create the Morphia instance through which all access to Mongo is going to occur
+        final Morphia morphia = new Morphia();
+
+        // Tell Morphia where to find the mapping classes
+        morphia.mapPackage("cs473");
+
+        // Create the datastore, providing the actual connetion to the Mongo database instance. Every project team
+        // should use a different dbName instead of travel473. This line of code will change slightly when we start
+        // connecting to a replica set, but it will be the only code that will have to change. For now get your app
+        // running connecting to a single instance of mongo.
+        String uriString    = args[0];
+        String databaseName = args[1];
+        String dataFile     = args[2];
+
+        String actualURI = String.format(uriString);
+        MongoClientURI uri = new MongoClientURI(actualURI);
+        final Datastore datastore = morphia.createDatastore(new MongoClient(uri), databaseName);
+
+
+        // Create the ProjectFunctions class
+        final ProjectFunctions projectFunctions = new ProjectFunctions(datastore);
+        final QueryFunctions queryFunctions = new QueryFunctions(datastore);
+
+
+        // Run this function to load data, comment it out if you are querying data
+        loadFile(projectFunctions, dataFile);
+        */
         //MogoClientURI uri = new MongoClientURI("mongodb://cs473:ButlerDawgz@cs473-shard-00-00-7choh.mongodb.net:37012/garpon?ssl=true&authSource=admin");
         //final Datastore datastore = morphia.createDatastore(new MongoClient(uri), "garpon");
 
@@ -76,7 +103,7 @@ public class Main {
                 Thread.sleep(5000);
         } catch(InterruptedException ex) { }
         System.out.println("Executing Queries");
-        /* 1 */
+        // 1
         System.out.println("flightAvailability();");
         System.out.println("Returns all flights between the two airports on a given date. Note that I have simplified this from the");
         System.out.println("original requirements that specified a date range.  This function returns a generic Object so you can return");
@@ -90,12 +117,12 @@ public class Main {
         Date now = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE");
         System.out.println(dateFormat.format(now));
-        List<FlightResult> flightsavailable = queryFunctions.flightAvailability(originAirport, destinationAirport, now);
+        List<FlightQuery> flightsavailable = queryFunctions.flightAvailability(originAirport, destinationAirport, now);
         System.out.println("Num of flights: " + flightsavailable.size());
-        for (FlightResult flight: flightsavailable) {
+        for (FlightQuery flight: flightsavailable) {
             System.out.println(flight.toString());
         }
-        /* 2 */
+        // 2
         System.out.println("flightOverbooked();");
         System.out.println("Returns all flights that are overbooked on the given day at the airport in question. If the boolean");
         System.out.println("checkOriginationCity is true, then you should check flights leaving the airport on the day. If the value is");

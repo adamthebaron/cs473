@@ -42,17 +42,15 @@ public class QueryFunctions {
      * and print something useful. Look at the sample Airline object for an example of this.
      */
      // db.FlightQuery.find({$and: [{"fromAirport": originationAirportCode}, {"toAirport": destinationAirportCode}, {"day": date}]}).pretty()
-    public List<FlightResult> flightAvailability(String originationAirportCode, String destinationAirportCode, Date date) {
+    public List<FlightQuery> flightAvailability(String originationAirportCode, String destinationAirportCode, Date date) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE");
         System.out.println("From: " + originationAirportCode + " To: " + destinationAirportCode + " Date: " + dateFormat.format(date).toString());
-        Query<FlightResult> query = datastore.createQuery(FlightResult.class);
-	query.and(
-			query.criteria("day").equal(dateFormat.format(date)),
-			query.criteria("fromAirport").equal(originationAirportCode),
-			query.criteria("toAirport").equal(destinationAirportCode)
-    	);
-        List<FlightResult> result = query.asList();
-        return result;
+        List<FlightQuery> stuff = datastore.createQuery(FlightQuery.class)
+			                                 .field("day").equal(dateFormat.format(date).toString())
+			                                 .field("fromAirport").equal(originationAirportCode)
+			                                 .field("toAirport").equal(destinationAirportCode)
+                                             .asList();
+        return stuff;
     }
 
     /**
