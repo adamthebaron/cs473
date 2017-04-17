@@ -97,7 +97,10 @@
          }
        },
        {
-        $sort: { demand: 1 }
+        $sort: { demand: -1 }
+       },
+       {
+        $limit: 1
        }
        ]).pretty()
 
@@ -110,7 +113,7 @@
      */
      db.Reservation.aggregate([
        { $match: {
-           dayOfWeek: 2
+           dayOfWeek:
          }
        },
        { $group: {
@@ -154,7 +157,10 @@
          }
        },
        {
-        $sort: { demand: -1 }
+        $sort: { demand: 1 }
+       },
+       {
+        $limit: 1
        }
        ]).pretty()
 
@@ -208,35 +214,3 @@
        },
        { $limit: 1 }
        ]).pretty()
-
-    /**
-     * CANT DO
-     * For this query you are going to return a map of maps. The outmost map will have as keys the airline codes. Each
-     * entry in this map will map a day of week (integers 0 - 6) to the number of miles flown.
-     */
-    public Map<String, Map<Integer, Integer>> totalMilesAnalysis() {
-        return null;
-    }
-
-    /**
-     * CANT DO
-     * This is a simplified version of the query in the original documentation. You simply need to give the
-     * average miles flown by the 100 travellers with the most miles flown all time.
-     */
-    public int top100TravellerMiles() {
-        return 0;
-    }
-
-    /**
-     * This function will get the day of week for a date. It has to subtract one from the value returned from c.get(...)
-     * because Java calendar uses 1 for Sunday, 2 for Monday and our data starts at 0 for Sunday.
-     * ref: http://stackoverflow.com/questions/5270272/how-to-determine-day-of-week-by-passing-specific-date
-     */
-    private int dayOfWeek(Date date) {
-        Calendar c = Calendar.getInstance();
-        c.setTime(date);
-        return c.get(Calendar.DAY_OF_WEEK) - 1;
-    }
-
-
-}
