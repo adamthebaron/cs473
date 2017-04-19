@@ -15,33 +15,41 @@
 
 
     /**
-     * NOT DONE
+     * DONE
      * Returns all flights that are overbooked on the given day at the airport in question. If the boolean
      * checkOriginationCity is true, then you should check flights leaving the airport on the day. If the value is
      * false then you should check flight arriving at the airport that day. I have simplified this to a single date
      * instead of a date range.
      */
-    public List<FlightQuery> flightOverbooked(boolean checkOriginationCity, String airportCode, Date date) {
-        List<FlightQuery> returnStuff = new ArrayList<>();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE");
-        Query<FlightQuery> querya = datastore.createQuery(FlightQuery.class);
-        if (checkOriginationCity)
-            querya.field("fromAirport").equal(airportCode)
-                  .field("day").equal(dateFormat.format(date));
-        else
-            querya.field("toAirport").equal(airportCode)
-                  .field("day").equal(dateFormat.format(date));
-        List<FlightQuery> flights = querya.asList();
-        for (FlightQuery flight: flights) {
-            String flightCode = flight.number;
-            Query<TravellerQuery> queryb = datastore.createQuery(TravellerQuery.class);
-            queryb.field("flights.flightCode").equal(flightCode);
-            List<TravellerQuery> reservations = queryb.asList();
-            if (reservations.size() > flight.seats)
-                returnStuff.add(flight);
-        }
-        return returnStuff;
-    }
+     db.Reservation.aggregate([
+             { $match: {
+                 dayOfWeek: 1
+               }
+             },
+             {
+               $lookup: {
+                 from: "FlightQuery",
+                 localField: "flight",
+                 foreignField: "_id",
+                 as: "flightdata"
+               }
+             },
+             { $match: {
+                 "flightdata.fromAirport": "ONP"
+               }
+             },
+             { $group: {
+                 _id: "$flight",
+                 numOfReservations: { $sum: 1 }
+               }
+             },
+             { $project: {
+                 overbooked: {
+                     $gt: ["$flight.seats", "$numOfReservations"]
+                 }
+               }
+             }
+          ])
 
     /**
      * DONE
