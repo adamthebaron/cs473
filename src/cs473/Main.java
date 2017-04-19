@@ -7,12 +7,12 @@ import org.mongodb.morphia.Morphia;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.sql.Date;
+//import java.sql.Date;
 import java.util.stream.Stream;
 import java.util.Scanner;
 import java.util.List;
 import java.util.ArrayList;
-//import java.util.Date;
+import java.util.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.logging.Logger;
@@ -123,23 +123,6 @@ public class Main {
         List<FlightQuery> flightsavailable = queryFunctions.flightAvailability(originAirport, destinationAirport, now);
         System.out.println("Num of flights: " + flightsavailable.size());
         for (FlightQuery flight: flightsavailable) {
-            System.out.println(flight.toString());
-        }
-        // 2
-        System.out.println("flightOverbooked();");
-        System.out.println("Returns all flights that are overbooked on the given day at the airport in question. If the boolean");
-        System.out.println("checkOriginationCity is true, then you should check flights leaving the airport on the day. If the value is");
-        System.out.println("false then you should check flight arriving at the airport that day. I have simplified this to a single date");
-        System.out.println("instead of a date range.");
-        System.out.print("Use from or to: ");
-        boolean checkOriginationCity = scanner.nextBoolean();
-        System.out.print("Enter airport code: ");
-        String overbookedAirport = scanner.next();
-        System.out.print("Using current day of week: ");
-        System.out.println(dateFormat.format(now));
-        List<FlightQuery> flightsOverbooked = queryFunctions.flightOverbooked(checkOriginationCity, overbookedAirport, now);
-        System.out.println("Num of flights: " + flightsOverbooked.size());
-        for (FlightQuery flight: flightsOverbooked) {
             System.out.println(flight.toString());
         }
     }
