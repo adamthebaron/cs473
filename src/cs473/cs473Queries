@@ -61,7 +61,7 @@
      */
      db.Reservation.aggregate([
        { $match: {
-           dayOfWeek:
+           dayOfWeek: 1
          }
        },
        { $group: {
@@ -121,7 +121,7 @@
      */
      db.Reservation.aggregate([
        { $match: {
-           dayOfWeek:
+           dayOfWeek: 1
          }
        },
        { $group: {
@@ -180,7 +180,7 @@
      */
      db.Reservation.aggregate([
        { $match: {
-           dayOfWeek:
+           dayOfWeek: 1
          }
        },
        { $group: {
